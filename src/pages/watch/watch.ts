@@ -13,10 +13,10 @@ Show active Watches in a list; allow for quick-increment or click-through to det
 })
 export class WatchPage {
 
-  public watchList: any;
+  public watchList$: any;
 
   constructor(private navCtrl: NavController, private watchService: WatchService) {
-    this.watchList = watchService.getWatchList();
+    this.watchList$ = watchService.getWatchList();
   }
 
   ionViewDidLoad() {
@@ -28,4 +28,7 @@ export class WatchPage {
     this.navCtrl.push(HomePage);
   }
 
+  moreWatchOptions(watchKey: string){
+    console.log('clicked on watch key: ${watchkey}');
+  }
 }

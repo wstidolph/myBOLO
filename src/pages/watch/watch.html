@@ -20,12 +20,14 @@
 
   <ion-list>
     <ion-list-header>Active BOLO</ion-list-header>
-    <ion-item *ngFor="let watch of watchList | async" (click)="moreBillOptions(bill.$key)"
-              [class.hide]="bill.paid == true">
+
+    <ion-item *ngFor="let watch of watchList$ | async" (click)="moreWatchOptions(watch.key)"
+              [class.hide]="watch.active == false">
       <ion-icon name="timer" color="danger" item-left></ion-icon>
-      <h2>{{bill.name}}</h2>
-      <h3>Total: <strong>${{bill.amount}}</strong></h3>
-      <p>Pay before: <strong>{{bill.dueDate}}</strong></p></ion-item>
+      <h2>${{watch.title}}</h2>
+      <h3>Total: <strong>${{watch.count}}</strong></h3>
+    </ion-item>
+
   </ion-list>
 
 </ion-content>

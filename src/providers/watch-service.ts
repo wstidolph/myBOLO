@@ -61,6 +61,9 @@ export class WatchService {
       Schema.USERWATCHSETS(uid));
   }
 
+  getWatchList(watchSetKey:string='*'){
+
+  }
   /*makeUnifiedWatchList() {
    let flattened = this.flatten(this.myWatchSetsList$);
    // drop any dupes by making a Set and then back to Array

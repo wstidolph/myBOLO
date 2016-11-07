@@ -1,0 +1,94 @@
+export const dbData = {
+  "noticables": [
+    { "taxonomyKey":"1.0",
+      "description": "AMBER",
+      "longDescription": "Emergency person/vehicle watch"
+    },
+    {
+      "taxonomyKey":"2.0",
+      "description": "FIRE",
+      "longDescription": "combustion or burning, in which substances combine chemically with oxygen from the air and typically give out bright light, heat, and smoke.",
+    },
+    {
+      "taxonomyKey":"3.0",
+      "description": "FISH",
+      "longDescription": "water-dwelling limbless cold-blooded vertebrate animal with gills and fins",
+    }
+  ],
+  "watches": [
+    {
+      "url": "forest_fire",
+      "taxonomyKey":"2.0",
+      "noticeableKey": "",
+      "description":"",
+      "longDescription":"",
+      "iconUrl": "",
+      "watchListIcon": "",
+      "olc_in":[""], // OLC include
+            // open location code https://en.wikipedia.org/wiki/Open_Location_Code
+            // also see https://plus.codes/
+      "olc_ex":[""], // OLC exclude from union of the olc_in entries
+      "location": "",
+      "timeStart":"",
+      "timeEnd":"",
+      "notices": []
+    },
+    {
+      "url": "camp_fire",
+      "taxonomyKey":"2.0",
+      "noticeableKey": "",
+      "description":"",
+      "longDescription":"",
+      "iconUrl": "",
+      "watchListIcon": "",
+      "olc_in":[""],
+      "olc_ex":[""],
+      "location": "",
+      "timeStart":"",
+      "timeEnd":"",
+      "notices": []
+    },
+    {
+      "url": "fish_1",
+      "taxonomyKey":"3.0",
+      "noticeableKey": "",
+      "description": "icythy-something",
+      "iconUrl": "",
+      "watchListIcon": "",
+      "longDescription": "icthy description of this particular fish",
+      "olc_in":[""],
+      "olc_ex":[""],
+      "location": "",
+      "timeStart":"",
+      "timeEnd":"",
+      "notices": []
+    },
+    {
+      "url": "wayne",
+      "taxonomyKey":"1.0",
+      "noticeableKey": "",
+      "description": "AMBER - Wayne",
+      "iconUrl": "",
+      "watchListIcon": "",
+      "longDescription": "",
+      "olc_in": ["848VXXWP+GF"], // 420 Isbel Dr
+      "olc_ex":[""],
+      "location": "",
+      "timeStart":"",
+      "timeEnd":"",
+      "notices": []
+    }
+  ],
+  "watchsets": [
+    {
+      "ownerKey":"",
+      "description":"Marine Watch 2016",
+      "longDescription":"Various fish to watch for on the group outing",
+      "watchKeys":[""],
+      "startTime":"",
+      "endTime":"",
+      "olc_in":[""], // union of watches
+      "olc_ex":[""]  // union of watches
+    }
+  ]
+};

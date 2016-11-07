@@ -6,8 +6,10 @@ import { HomePage } from '../pages/home/home';
 import { LoginPage } from '../pages/login/login';
 import { ResetPasswordPage } from '../pages/reset-password/reset-password';
 import { SignupPage } from '../pages/signup/signup';
+import { WatchPage } from '../pages/watch/watch';
 
 import { AuthData } from '../providers/auth-data';
+import { WatchService } from '../providers/watch-service';
 
 // Import the AF2 Module
 import { AngularFireModule, AuthProviders, AuthMethods } from 'angularfire2';
@@ -24,7 +26,8 @@ const myFirebaseAuthConfig = {
     HomePage,
     LoginPage,
     ResetPasswordPage,
-    SignupPage
+    SignupPage,
+    WatchPage
   ],
   imports: [
     IonicModule.forRoot(MyApp),
@@ -36,10 +39,12 @@ const myFirebaseAuthConfig = {
     HomePage,
     LoginPage,
     ResetPasswordPage,
-    SignupPage
+    SignupPage,
+    WatchPage
   ],
   providers: [
-    AuthData
+    AuthData,
+    WatchService
   ]
 })
 export class AppModule {}

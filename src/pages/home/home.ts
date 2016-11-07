@@ -6,6 +6,7 @@ import { WatchService } from '../../providers/watch-service';
 import {LoginPage} from '../login/login';
 import {SignupPage} from '../signup/signup';
 import { WatchPage } from '../watch/watch';
+import { WatchAddPage } from '../watch-add/watch-add';
 
 @Component({
   selector: 'page-home',
@@ -27,5 +28,9 @@ export class HomePage {
 
   goToWatch(){
     this.navCtrl.push(WatchPage);
+  }
+
+  goToWatchAdd() {
+    this.navCtrl.push(WatchAddPage)
   }
 }

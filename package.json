@@ -36,7 +36,7 @@
     "@types/request": "0.0.30",
     "typescript": "2.0.6"
   },
-  "description": "extraDebtTracker: An Ionic project",
+  "description": "myBOLO: looking out for one another",
   "cordovaPlugins": [
     "cordova-plugin-device",
     "cordova-plugin-console",

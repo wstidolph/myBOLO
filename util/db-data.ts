@@ -17,9 +17,24 @@ export const dbData = {
   ],
   "watches": [
     {
+      "url": "wayne",
+      "taxonomyKey":"1.0",
+      "noticeableKey": "2",
+      "description": "AMBER",
+      "iconUrl": "",
+      "watchListIcon": "",
+      "longDescription": "",
+      "olc_in": ["848VXXWP+GF"], // 420 Isbel Dr
+      "olc_ex":[""],
+      "location": "",
+      "timeStart":"",
+      "timeEnd":"",
+      "notices": []
+    },
+    {
       "url": "forest_fire",
       "taxonomyKey":"2.0",
-      "noticeableKey": "",
+      "noticeableKey": "1",
       "description":"",
       "longDescription":"",
       "iconUrl": "",
@@ -36,7 +51,7 @@ export const dbData = {
     {
       "url": "camp_fire",
       "taxonomyKey":"2.0",
-      "noticeableKey": "",
+      "noticeableKey": "2",
       "description":"",
       "longDescription":"",
       "iconUrl": "",
@@ -51,27 +66,12 @@ export const dbData = {
     {
       "url": "fish_1",
       "taxonomyKey":"3.0",
-      "noticeableKey": "",
+      "noticeableKey": "2",
       "description": "icythy-something",
       "iconUrl": "",
       "watchListIcon": "",
       "longDescription": "icthy description of this particular fish",
       "olc_in":[""],
-      "olc_ex":[""],
-      "location": "",
-      "timeStart":"",
-      "timeEnd":"",
-      "notices": []
-    },
-    {
-      "url": "wayne",
-      "taxonomyKey":"1.0",
-      "noticeableKey": "",
-      "description": "AMBER - Wayne",
-      "iconUrl": "",
-      "watchListIcon": "",
-      "longDescription": "",
-      "olc_in": ["848VXXWP+GF"], // 420 Isbel Dr
       "olc_ex":[""],
       "location": "",
       "timeStart":"",
@@ -84,11 +84,33 @@ export const dbData = {
       "ownerKey":"",
       "description":"Marine Watch 2016",
       "longDescription":"Various fish to watch for on the group outing",
-      "watchKeys":[""],
+      "watchKeys":[0,1],
+      "startTime":"",
+      "endTime":"",
+      "olc_in":[""], // union of watches
+      "olc_ex":[""]  // union of watches
+    },
+    {
+      "ownerKey":"",
+      "description":"Second WatchSet",
+      "longDescription":"another group of things to watch",
+      "watchKeys":[2,3],
       "startTime":"",
       "endTime":"",
       "olc_in":[""], // union of watches
       "olc_ex":[""]  // union of watches
     }
+  ],
+  "userProfile" : [{
+    "firstName": "Wayne",
+    "lastName": "Ali",
+    "email": "wayne@stidolph.com",
+    "watchSets": [0],
+    "watches":[
+      {
+        "watchKey":"watchSetKey"
+      }
+    ]
+  }
   ]
 };

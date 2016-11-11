@@ -4,13 +4,10 @@
   "homepage": "http://ionicframework.com/",
   "private": true,
   "scripts": {
-    "build": "ionic-app-scripts build",
-    "watch": "ionic-app-scripts watch",
-    "serve:before": "watch",
-    "emulate:before": "build",
-    "deploy:before": "build",
-    "build:before": "build",
-    "run:before": "build"
+    "ionic:build": "ionic-app-scripts build",
+    "ionic:serve": "ionic-app-scripts serve",
+    "populate-db": "ts-node ./util/populate-db",
+    "clean-db": "ts-node ./util/clean-db"
   },
   "dependencies": {
     "@angular/common": "2.1.1",
@@ -32,8 +29,10 @@
     "zone.js": "0.6.21"
   },
   "devDependencies": {
-    "@ionic/app-scripts": "0.0.39",
+    "@ionic/app-scripts": "0.0.42",
     "@types/request": "0.0.30",
+    "install": "^0.8.2",
+    "ts-node": "^1.7.0",
     "typescript": "2.0.6"
   },
   "description": "myBOLO: looking out for one another",

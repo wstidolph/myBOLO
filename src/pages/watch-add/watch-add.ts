@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
+import { WatchService } from '../../providers/watch-service';
 
 /*
   Generated class for the WatchAdd page.
@@ -13,7 +14,7 @@ import { NavController } from 'ionic-angular';
 })
 export class WatchAddPage {
 
-  constructor(public navCtrl: NavController) {}
+  constructor(public navCtrl: NavController, private watchService: WatchService) {}
 
   ionViewDidLoad() {
     console.log('Hello WatchAddPage Page');

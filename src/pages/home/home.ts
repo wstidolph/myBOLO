@@ -7,6 +7,7 @@ import {LoginPage} from '../login/login';
 import {SignupPage} from '../signup/signup';
 import { WatchPage } from '../watch/watch';
 import { WatchAddPage } from '../watch-add/watch-add';
+import { WatchSetPage } from '../watch-set/watch-set';
 
 @Component({
   selector: 'page-home',
@@ -32,5 +33,9 @@ export class HomePage {
 
   goToWatchAdd() {
     this.navCtrl.push(WatchAddPage)
+  }
+
+  goToWatchSet() {
+    this.navCtrl.push(WatchSetPage)
   }
 }

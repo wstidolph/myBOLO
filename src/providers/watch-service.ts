@@ -3,6 +3,7 @@ import 'rxjs/add/operator/map';
 import {Observable} from 'rxjs/Rx';
 import {Schema, Watch, WatchSet} from '../app/model';
 
+
 import {
   AngularFire,
   FirebaseRef,
@@ -32,8 +33,9 @@ export class WatchService {
     this.af.auth.subscribe(auth => {
       console.log('auth is ',auth);
       if (auth) {
-        this.myWatchSetsList$ = this.watchSetsForUser(auth.uid);
         this.userId = auth.uid;
+        this.myWatchSetsList$ = this.watchSetsForUser(auth.uid);
+
       }
     });
   }
@@ -56,9 +58,18 @@ export class WatchService {
     return this.af.database.list(Schema.WATCHES);
   }
 
+  getAllWatchSets() {
+    return this.af.database.list(
+      Schema.WATCHSET); //{Schema.WATCHSET}
+  }
   watchSetsForUser(uid:string) {
     return this.af.database.list(
-      Schema.USERWATCHSETS(uid));
+      Schema.USERWATCHSETS(uid)); // ${Schema.USERPROFILE}/{uid}/${Schema.WATCHSET}
+  }
+
+  getWatchesForWatchSet(wskey) {
+    const wswatches$ =
+      this.af.database.list(Schema.WATCHSET+'/watchKeys'+wskey);
   }
 
   getWatchList(watchSetKey:string='*'){

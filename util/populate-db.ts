@@ -37,7 +37,9 @@ dbData.watches.forEach( watch => {
     noticeableKey: noticeableKeys[watch.noticeableKey],
     iconUrl: watch.iconUrl,
     watchListIcon: watch.watchListIcon,
-    longDescription: watch.longDescription
+    longDescription: watch.longDescription,
+    active: true,
+    count: 0
   }).key);
 
  /*
@@ -84,16 +86,27 @@ dbData.watchsets.forEach(watchset => {
   watchsetRefKeys.push(watchSetsRef.push({
     owner: watchset.ownerKey,
     description: watchset.description,
+    longDescription: watchset.longDescription,
+    active: true,
+    count: 0,
     watchKeys: watchset.watchKeys.map(idx => watchRefKeys[idx])
   }).key);
 });
 
 dbData.userProfile.forEach(up => {
-  userProfileRef.push({
+  const upkey = userProfileRef.push({
     firstName:  up.firstName,
     lastName: up.lastName,
     email: up.email,
-    watchSets: up.watchSets.map(idx => watchsetRefKeys[idx])
+  }).key;
+
+  console.log('userProfile key = ',upkey);
+  const watchSetsForUserRef = userProfileRef.child(upkey).child('watchSet');
+  const watchSetsForUser = up.watchSets.map(wsidx => watchsetRefKeys[wsidx]);
+  watchSetsForUser.forEach(wskey => {
+    console.log('adding wskey ', wskey);
+    const wskeyAssoc = watchSetsForUserRef.child(wskey);
+    wskeyAssoc.set(true);
   })
 });
 

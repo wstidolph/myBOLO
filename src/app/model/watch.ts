@@ -9,5 +9,5 @@ export class Watch {
   imgUrl: string; // object ref in storage
   timesToWatch: [string, string];
   key:string; // the pushkey for this Watch in Firebase
-  // next FROM, next TO
+  active: boolean = true;
 }

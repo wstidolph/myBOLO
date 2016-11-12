@@ -8,6 +8,7 @@ import { ResetPasswordPage } from '../pages/reset-password/reset-password';
 import { SignupPage } from '../pages/signup/signup';
 import { WatchPage } from '../pages/watch/watch';
 import { WatchAddPage } from '../pages/watch-add/watch-add';
+import { WatchSetPage } from '../pages/watch-set/watch-set';
 
 import { AuthData } from '../providers/auth-data';
 import { WatchService } from '../providers/watch-service';
@@ -29,7 +30,8 @@ const myFirebaseAuthConfig = {
     ResetPasswordPage,
     SignupPage,
     WatchPage,
-    WatchAddPage
+    WatchAddPage,
+    WatchSetPage
   ],
   imports: [
     IonicModule.forRoot(MyApp),
@@ -43,7 +45,8 @@ const myFirebaseAuthConfig = {
     ResetPasswordPage,
     SignupPage,
     WatchPage,
-    WatchAddPage
+    WatchAddPage,
+    WatchSetPage
   ],
   providers: [
     AuthData,

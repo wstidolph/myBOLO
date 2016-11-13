@@ -84,7 +84,7 @@ export const dbData = {
       "ownerKey":"",
       "description":"Marine Watch 2016",
       "longDescription":"Various fish to watch for on the group outing",
-      "watchKeys":[0,1],
+      "watchKeyList":[0,1],
       "startTime":"",
       "endTime":"",
       "olc_in":[""], // union of watches
@@ -94,7 +94,7 @@ export const dbData = {
       "ownerKey":"",
       "description":"Second WatchSet",
       "longDescription":"another group of things to watch",
-      "watchKeys":[2,3],
+      "watchKeyList":[2,3,1],
       "startTime":"",
       "endTime":"",
       "olc_in":[""], // union of watches

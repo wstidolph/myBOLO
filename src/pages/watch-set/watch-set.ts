@@ -1,6 +1,7 @@
 import {Component, Input} from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { WatchService } from '../../providers/watch-service';
+import { WatchListComponent } from '../../components/watch-list/watch-list';
 import {FirebaseListObservable} from "angularfire2";
 /*
   Generated class for the WatchSet page.
@@ -10,10 +11,9 @@ import {FirebaseListObservable} from "angularfire2";
 */
 @Component({
   selector: 'page-watch-set',
-  templateUrl: 'watch-set.html'
+  templateUrl: 'watch-set.html',
 })
 export class WatchSetPage {
-  @Input() selectedWSKey;
 
   watchSetList$: any;
   watchList$: any;

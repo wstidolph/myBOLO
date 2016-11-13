@@ -13,6 +13,7 @@ import { WatchSetPage } from '../pages/watch-set/watch-set';
 import { AuthData } from '../providers/auth-data';
 import { WatchService } from '../providers/watch-service';
 
+import {  WatchListComponent } from '../components/watch-list/watch-list';
 // Import the AF2 Module
 import { AngularFireModule, AuthProviders, AuthMethods } from 'angularfire2';
 import {firebaseConfig} from '../../config/fb_conf.dev';
@@ -31,7 +32,8 @@ const myFirebaseAuthConfig = {
     SignupPage,
     WatchPage,
     WatchAddPage,
-    WatchSetPage
+    WatchSetPage,
+    WatchListComponent
   ],
   imports: [
     IonicModule.forRoot(MyApp),
@@ -46,7 +48,9 @@ const myFirebaseAuthConfig = {
     SignupPage,
     WatchPage,
     WatchAddPage,
-    WatchSetPage
+    WatchSetPage,
+
+
   ],
   providers: [
     AuthData,

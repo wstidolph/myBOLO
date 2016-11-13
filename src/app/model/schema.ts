@@ -20,6 +20,8 @@ export class Schema {
    */
   public static WATCHSET = "watchSet";
 
+  public static WATCHESPERWATCHSET = "watchesPerWatchSet";
+
   /**
    * Maps a watch key to a list of WatchSet keys.
    * @type {string}
@@ -36,4 +38,9 @@ export class Schema {
 
   public static USERWATCHSETS(uid:string):string {
     return `${Schema.USERPROFILE}/{uid}/${Schema.WATCHSET}`;}
+
+  public static WATCHKEYSLIST = "watchKeysList";
+
+/*  public static WATCHSETWATCHKEYLIST(wskey:string):string {
+    return `${Schema.WATCHSET}/${wskey}/${Schema.WATCHKEYSLIST}`;}*/
 }

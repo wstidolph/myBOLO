@@ -68,11 +68,35 @@ export class WatchService {
   }
 
   getWatchesForWatchSet(wskey) {
-    const wswatches$ =
-      this.af.database.list(Schema.WATCHSET+'/watchKeys'+wskey);
+    return this.af.database.list(`${Schema.WATCHESPERWATCHSET}/${wskey}`);
   }
 
-  getWatchList(watchSetKey:string='*'){
+  findWatchSetByKey(wskey:string) {
+    return this.af.database.list(`${Schema.WATCHSET}/${wskey}`);
+  }
+
+  findWatchesByWatchset(wskey: string) {
+    const watchKeyList$ = this.getWatchesForWatchSet(wskey);
+
+    return watchKeyList$
+      .map(wk => this.af.database.object(`${Schema.WATCHES}/${wk}`))
+      .flatMap(fbobs => Observable.combineLatest(fbobs));
+  }
+
+  getWatchKeyList(watchSetKey:string='*'): FirebaseListObservable<any> {
+    if(watchSetKey == '*'){
+      console.log('getWatchList got *');
+      return this.af.database.list(
+        Schema.WATCHKEYSLIST);
+    } else {
+      console.log(
+        'getting watch list for ${Schema.WATCHESPERWATCHSET}/${watchSetKey}');
+      return this.af.database.list(
+        `${Schema.WATCHESPERWATCHSET}/${watchSetKey}`);
+    }
+  }
+
+  getWatchList(){
 
   }
   /*makeUnifiedWatchList() {

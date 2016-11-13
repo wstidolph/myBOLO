@@ -11,12 +11,14 @@ initializeApp(firebaseConfig);
 
 const watchesRef = database().ref('watch');
 const watchSetsRef = database().ref('watchSet');
+const watchesPerWatchSetRef = database().ref('watchesPerWatchSet');
 const noticeablesRef = database().ref('noticeable');
 const noticesRef = database().ref('notice');
 const userProfileRef = database().ref('userProfile');
 
 watchesRef.remove()
   .then(_ => watchSetsRef.remove())
+  .then(_ => watchesPerWatchSetRef.remove())
   .then(_ => noticeablesRef.remove())
   .then(_ => noticesRef.remove())
   .then(_ => userProfileRef.remove())

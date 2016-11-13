@@ -11,6 +11,7 @@ initializeApp(firebaseConfig);
 
 const watchesRef = database().ref('watch');
 const watchSetsRef = database().ref('watchSet');
+const watchesPerWatchSetRef = database().ref('watchesPerWatchSet');
 const noticeablesRef = database().ref('noticeable');
 const noticesRef = database().ref('notice');
 const userProfileRef = database().ref('userProfile');
@@ -23,13 +24,9 @@ dbData.noticables.forEach(noticeable => {
   }).key);
 });
 
-console.log('noticeableKeys ', noticeableKeys);
-
 let watchRefKeys = [];
 
 dbData.watches.forEach( watch => {
-
-  console.log('adding watch ', watch.url, ' with noticeableKey ', watch.noticeableKey);
 
   watchRefKeys.push(watchesRef.push({
     url: watch.url,
@@ -78,19 +75,29 @@ dbData.watches.forEach( watch => {
 
 });
 
-console.log('watchRefKeys are: ', watchRefKeys);
-
 let watchsetRefKeys = [];
 dbData.watchsets.forEach(watchset => {
-  console.log('adding watchset ', watchset.description);
-  watchsetRefKeys.push(watchSetsRef.push({
+
+  // put into the watchKeys
+  const wskey = watchSetsRef.push({
     owner: watchset.ownerKey,
     description: watchset.description,
     longDescription: watchset.longDescription,
     active: true,
     count: 0,
-    watchKeys: watchset.watchKeys.map(idx => watchRefKeys[idx])
-  }).key);
+    //watchKeyList: watchset.watchKeyList.map(idx => watchRefKeys[idx])
+  }).key;
+
+  watchsetRefKeys.push(wskey);
+
+  // record the association with specific watches, as indicated by the
+  // watchKeyList in the data file; watchKeyList holds *indices into the watches
+  //  array in the JSON
+  watchset.watchKeyList.map(idx =>
+    watchesPerWatchSetRef.child(wskey) // where to put the watch references
+      .child(watchRefKeys[idx])
+      .set(0)
+  );
 });
 
 dbData.userProfile.forEach(up => {
@@ -100,14 +107,14 @@ dbData.userProfile.forEach(up => {
     email: up.email,
   }).key;
 
-  console.log('userProfile key = ',upkey);
   const watchSetsForUserRef = userProfileRef.child(upkey).child('watchSet');
   const watchSetsForUser = up.watchSets.map(wsidx => watchsetRefKeys[wsidx]);
   watchSetsForUser.forEach(wskey => {
-    console.log('adding wskey ', wskey);
     const wskeyAssoc = watchSetsForUserRef.child(wskey);
     wskeyAssoc.set(true);
   })
 });
+
+console.log('DB initialized');
 
 

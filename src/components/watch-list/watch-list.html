@@ -1,0 +1,12 @@
+<!--
+Render a watchList - a list of Watch Keys/icons
+Each list entry should be clickable to register
+an "isaw"
+-->
+
+<ion-list>
+  <ion-list-header>WatchSetKey: {{wskey}}</ion-list-header>
+  <ion-item *ngFor="let watchkey of watchList$ | async">
+    {{watchkey.$value}}
+  </ion-item>
+</ion-list>

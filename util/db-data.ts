@@ -1,3 +1,5 @@
+import * as Schema from '../src/app/model';
+
 export const dbData = {
   "noticables": [
     { "taxonomyKey":"1.0",
@@ -112,5 +114,9 @@ export const dbData = {
       }
     ]
   }
-  ]
+  ],
+  "notices": [{
+    "uid": 0,
+    "watch": 0
+  }]
 };

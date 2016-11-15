@@ -12,10 +12,16 @@ import {
 } from "angularfire2";
 
 /*
- Generated class for the Watch provider.
+Data provider for Watches and WatchSets.
+Connects to Firebase. Basic data layout:
+/watch/:id/<watch fields>
+/watchSet/:id/<watchSet fields>
+/watchesPerWatchSet/:watchsetpushkey/:watchkey => count
 
- See https://angular.io/docs/ts/latest/guide/dependency-injection.html
- for more info on providers and Angular 2 DI.
+temporary home for User-specific watch subscriptions:
+
+/userProfile/:uid/watchSet/:watchsetId => true
+
  */
 @Injectable()
 export class WatchService {

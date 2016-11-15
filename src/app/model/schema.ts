@@ -2,15 +2,12 @@
  * Created by wayne on 10/30/2016.
  */
 export class Schema {
-  public static NOTICEABLES = "noticeable";
+  public static NOTICEABLE = "noticeable";
   /**
-   * maps a key to an object of type Notice.
-   * Notice is 'isaw' instance, so there will be many many Notice objects.
    * @type {string}
    */
-  public static NOTICES = "notice";
+  public static NOTICE = "notice";
   /**
-   * Maps a key to an object of type Watch.
    * @type {string}
    */
   public static WATCHES = "watches";
@@ -22,6 +19,10 @@ export class Schema {
 
   public static WATCHESPERWATCHSET = "watchesPerWatchSet";
 
+  public static WATCHTONOTICE = "watchToNotice";
+  public static watchToNotice(wid:string):string {
+    return `${Schema.WATCHTONOTICE}/${wid}`;
+  }
   /**
    * Maps a watch key to a list of WatchSet keys.
    * @type {string}

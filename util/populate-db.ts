@@ -4,6 +4,7 @@
 import {database, initializeApp} from "firebase";
 import {firebaseConfig} from "../config/fb_conf.dev";
 import {dbData} from "./db-data";
+import {isNullOrUndefined} from "util";
 
 console.log('Initizalizing Firebase database ... ');
 
@@ -100,6 +101,7 @@ dbData.watchsets.forEach(watchset => {
   );
 });
 
+let upKeys = [];
 dbData.userProfile.forEach(up => {
   const upkey = userProfileRef.push({
     firstName:  up.firstName,
@@ -107,12 +109,33 @@ dbData.userProfile.forEach(up => {
     email: up.email,
   }).key;
 
+  upKeys.push(upkey);
+
   const watchSetsForUserRef = userProfileRef.child(upkey).child('watchSet');
   const watchSetsForUser = up.watchSets.map(wsidx => watchsetRefKeys[wsidx]);
   watchSetsForUser.forEach(wskey => {
     const wskeyAssoc = watchSetsForUserRef.child(wskey);
     wskeyAssoc.set(true);
   })
+});
+
+let noticeKeys=[];
+dbData.notices.forEach(notice => {
+  const noticekey = noticesRef.push({
+    owner: upKeys[notice.uid],
+    watch: watchRefKeys[notice.watch]
+    //watchKeyList: watchset.watchKeyList.map(idx => watchRefKeys[idx])
+  }).key;
+
+  noticeKeys.push(noticekey);
+  // update the count of the Watch
+  watchesRef.child(watchRefKeys[notice.watch]+'/count').transaction(function(curCount){
+    if( curCount)  {
+      return curCount + 1;
+    } else {
+      return 1;
+    }
+  });
 });
 
 console.log('DB initialized');

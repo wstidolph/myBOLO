@@ -8,7 +8,11 @@ import {dbData} from "./db-data";
 console.log('Initizalizing Firebase database ... ');
 
 initializeApp(firebaseConfig);
+database().ref().remove()
+  .then(_ => console.log('dropped all'))
+  .then(_ => process.exit());
 
+/*
 const watchesRef = database().ref('watch');
 const watchSetsRef = database().ref('watchSet');
 const watchesPerWatchSetRef = database().ref('watchesPerWatchSet');
@@ -25,4 +29,4 @@ watchesRef.remove()
   .then(_ => console.log('done cleaning'))
   .then(_ => process.exit()
   );
-
+  */

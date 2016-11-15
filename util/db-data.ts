@@ -117,6 +117,12 @@ export const dbData = {
   ],
   "notices": [{
     "uid": 0,
-    "watch": 0
-  }]
+    "watch": 0,
+    "seenWhen": Date.now().toString()
+  },
+    {
+      "uid": 0,
+      "watch": 2,
+      "seenWhen": Date.now().toString()
+    }]
 };

@@ -123,7 +123,8 @@ let noticeKeys=[];
 dbData.notices.forEach(notice => {
   const noticekey = noticesRef.push({
     owner: upKeys[notice.uid],
-    watch: watchRefKeys[notice.watch]
+    watch: watchRefKeys[notice.watch],
+    seenWhen: notice.seenWhen
     //watchKeyList: watchset.watchKeyList.map(idx => watchRefKeys[idx])
   }).key;
 

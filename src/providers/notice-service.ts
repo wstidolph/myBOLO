@@ -9,6 +9,8 @@ import {
   FirebaseObjectObservable, FirebaseDatabase
 } from "angularfire2";
 
+import {WatchService} from './watch-service';
+
 /*
  Data provider for Notices and Noticeables.
  A Notice is the basic inflowing unit of data/alert/event.
@@ -24,7 +26,10 @@ export class NoticeService {
   dbRef: firebase.database.Reference;
   userId: string;
 
-  constructor(private af: AngularFire, @Inject(FirebaseRef) dbRef) {
+  constructor(private af: AngularFire,
+              private watchService:WatchService,
+              @Inject(FirebaseRef) dbRef
+              ) {
     this.dbRef = dbRef.database().ref();
 
     this.af.auth.subscribe(auth => {
@@ -47,6 +52,6 @@ export class NoticeService {
     // each watchtonotice has a 'count' of how many
     // notices on that Watch;
     // this needs transactional updating
-    this.dbRef.ref(wtnkey).transaction
+    this.watchService.incCount((notice.watchKey));
   }
 }

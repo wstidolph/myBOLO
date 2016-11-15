@@ -5,6 +5,10 @@ export class Notice {
 
   constructor(
     /**
+     * The key to the Watch
+     */
+    public watchKey: string,
+    /**
      * User who sent this notice
      */
     public noticeUid: string,

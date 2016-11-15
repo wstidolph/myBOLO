@@ -15,7 +15,15 @@ export class Schema {
    * Maps a key to a list of keys, each of which is key for a Watch;
    * @type {string}
    */
+
+  public static WATCH(watchKey:string){
+    return '${Schema.WATCHES}/${watchKey}}';
+  }
   public static WATCHSET = "watchSet";
+
+  public static WATCHCOUNT(watchKey:string) {
+    return Schema.WATCH(watchKey)+ '/count';
+  }
 
   public static WATCHESPERWATCHSET = "watchesPerWatchSet";
 

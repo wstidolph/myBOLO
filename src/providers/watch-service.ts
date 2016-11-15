@@ -53,6 +53,27 @@ export class WatchService {
 
     return ws;
   }
+
+  /*
+  watch count management
+   */
+  getCount(watchkey:string) {
+    return this.af.database.object(Schema.WATCHCOUNT(watchkey));
+  }
+
+  incCount(watchkey:string){
+    this.dbRef.ref(Schema.WATCHCOUNT(watchkey)).transaction(function(curCount){
+      if( curCount)  {
+        return curCount + 1;
+      } else {
+        return 1;
+      }
+    });
+  }
+
+  zeroCount(watchKey:string){
+
+  }
   addWatch(theWatch:Watch): Observable<Watch> {
     const obs: FirebaseObjectObservable<Watch> =
       this.dbRef.object(`${Schema.WATCHES}/${theWatch.key}`);

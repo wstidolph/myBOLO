@@ -11,6 +11,8 @@ import { WatchAddPage } from '../pages/watch-add/watch-add';
 import { WatchSetPage } from '../pages/watch-set/watch-set';
 
 import { AuthData } from '../providers/auth-data';
+import { ContextService } from '../providers/context-service';
+import { NoticeService } from '../providers/notice-service';
 import { WatchService } from '../providers/watch-service';
 
 import {  WatchListComponent } from '../components/watch-list/watch-list';
@@ -54,6 +56,8 @@ const myFirebaseAuthConfig = {
   ],
   providers: [
     AuthData,
+    ContextService,
+    NoticeService,
     WatchService
   ]
 })

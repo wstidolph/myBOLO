@@ -31,4 +31,8 @@ export class WatchPage {
   moreWatchOptions(watchKey: string){
     console.log('clicked on watch key: ${watchkey}');
   }
+
+  quickNotice(watchKey: string){
+    this.watchService.addQuickNotice(watchKey);
+  }
 }

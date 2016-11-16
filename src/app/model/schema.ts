@@ -16,13 +16,13 @@ export class Schema {
    * @type {string}
    */
 
-  public static WATCH(watchKey:string){
+  public static watch(watchKey:string):string{
     return '${Schema.WATCHES}/${watchKey}}';
   }
   public static WATCHSET = "watchSet";
 
-  public static WATCHCOUNT(watchKey:string) {
-    return Schema.WATCH(watchKey)+ '/count';
+  public static watchCount(watchKey:string):string {
+    return Schema.watch(watchKey)+ '/count';
   }
 
   public static WATCHESPERWATCHSET = "watchesPerWatchSet";
@@ -43,10 +43,11 @@ export class Schema {
    */
   public static WATCHCOUNTS = "watchCounts";
 
+  public static UID = "uid"
   public static USERPROFILE = "userProfile";
 
-  public static USERWATCHSETS(uid:string):string {
-    return `${Schema.USERPROFILE}/{uid}/${Schema.WATCHSET}`;}
+  public static userWatchSets(uid:string):string {
+    return `${Schema.USERPROFILE}/${Schema.UID}/${Schema.WATCHSET}`;}
 
   public static WATCHKEYSLIST = "watchKeysList";
 

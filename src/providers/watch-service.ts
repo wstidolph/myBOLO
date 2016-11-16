@@ -1,7 +1,9 @@
 import {Injectable, Inject} from '@angular/core';
 import 'rxjs/add/operator/map';
 import {Observable} from 'rxjs/Rx';
-import {Schema, Watch, WatchSet} from '../app/model';
+import {ContextService} from './context-service';
+import {NoticeService} from './notice-service';
+import {Context, Schema, Watch, Notice, WatchSet} from '../app/model';
 
 
 import {
@@ -33,7 +35,11 @@ export class WatchService {
 
   userId: string;
 
-  constructor(private af: AngularFire, @Inject(FirebaseRef) dbRef) {
+  constructor(private af: AngularFire,
+              @Inject(FirebaseRef) dbRef,
+              private contextService: ContextService,
+              private noticeService:NoticeService)
+  {
     this.dbRef = dbRef.database().ref();
 
     this.af.auth.subscribe(auth => {
@@ -44,6 +50,17 @@ export class WatchService {
 
       }
     });
+  }
+
+  /**
+   * add a here-and-now Notice of the specified watch (if it exists)
+   * @param watchKey
+   */
+  addQuickNotice(watchKey:string){
+    let notice:Notice = new Notice(watchKey=watchKey);
+    notice.location="at home";
+    notice.description="no_description";
+    this.noticeService.addNotice(notice);
   }
 
   addWatchSet(theWatchSetKey:string):FirebaseListObservable<string[]> {
@@ -58,18 +75,10 @@ export class WatchService {
   watch count management
    */
   getCount(watchkey:string) {
-    return this.af.database.object(Schema.WATCHCOUNT(watchkey));
+    return this.af.database.object(Schema.watchCount(watchkey));
   }
 
-  incCount(watchkey:string){
-    this.dbRef.ref(Schema.WATCHCOUNT(watchkey)).transaction(function(curCount){
-      if( curCount)  {
-        return curCount + 1;
-      } else {
-        return 1;
-      }
-    });
-  }
+
 
   zeroCount(watchKey:string){
 
@@ -79,6 +88,10 @@ export class WatchService {
       this.dbRef.object(`${Schema.WATCHES}/${theWatch.key}`);
 
     return obs;
+  }
+
+  getWatch(watchKey:string) : FirebaseObjectObservable<Watch>{
+    return this.af.database.object(Schema.watch(watchKey));
   }
 
   findAllWatches(): FirebaseListObservable<Watch[]> {
@@ -91,7 +104,7 @@ export class WatchService {
   }
   watchSetsForUser(uid:string) {
     return this.af.database.list(
-      Schema.USERWATCHSETS(uid)); // ${Schema.USERPROFILE}/{uid}/${Schema.WATCHSET}
+      Schema.userWatchSets(uid)); // ${Schema.USERPROFILE}/{uid}/${Schema.WATCHSET}
   }
 
   getWatchesForWatchSet(wskey) {

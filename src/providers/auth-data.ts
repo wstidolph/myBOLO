@@ -2,12 +2,14 @@ import { Injectable } from '@angular/core';
 import {
   AngularFire,
   AuthProviders,
-  AuthMethods } from 'angularfire2';
+  AuthMethods, FirebaseAuth, FirebaseAuthState
+} from 'angularfire2';
 
 @Injectable()
 export class AuthData {
-  fireAuth: any;
+  fireAuth: firebase.User;
   constructor(public af: AngularFire) {
+    // af.auth is an AngularFireAuth extends ReplaySubject<FirebaseAuthState>
     af.auth.subscribe( user => {
       if (user) {
         this.fireAuth = user.auth;

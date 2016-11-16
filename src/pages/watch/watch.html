@@ -21,7 +21,9 @@
   <ion-list>
     <ion-list-header>Active BOLO</ion-list-header>
 
-    <ion-item *ngFor="let watch of watchList$ | async" (click)="moreWatchOptions(watch.key)"
+    <ion-item *ngFor="let watch of watchList$ | async"
+              on-hold="quickNotice(watch.key)"
+              (click)="moreWatchOptions(watch.key)"
               [class.hide]="watch.active == false">
       <ion-icon name="timer" color="danger" item-left></ion-icon>
       <h2>${{watch.title}}</h2>

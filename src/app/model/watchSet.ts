@@ -3,10 +3,22 @@
  */
 
 export  class WatchSet {
-  watchKeyList: Array<string> = [];
+
+  constructor(
+    public ownerKey: string,
+    public description:string,
+    public longDescription:string,
+    public watchKeyList:string[],
+    public startTime: string,
+    public endTime: string,
+    public olc_in:string[], // union of watches
+    public olc_ex:string[]  // union of watches){
+  ){
+    this.watchKeyList=[];
+  }
 
   get WatchKeys():Array<string> {
-    return Array.from(this.watchKeyList); // copy
+    return this.watchKeyList; // copy
   }
 
   ngOnInit(){

@@ -1,6 +1,4 @@
 import {Injectable, Inject} from '@angular/core';
-import { Http } from '@angular/http';
-import 'rxjs/add/operator/map';
 import {Schema, Notice, Noticeable} from '../app/model';
 import {
   AngularFire,
@@ -9,7 +7,8 @@ import {
   FirebaseObjectObservable, FirebaseDatabase
 } from "angularfire2";
 
-import {WatchService} from './watch-service';
+import {Context} from "../app/model/context";
+import {ContextService} from "./context-service";
 
 /*
  Data provider for Notices and Noticeables.
@@ -27,31 +26,47 @@ export class NoticeService {
   userId: string;
 
   constructor(private af: AngularFire,
-              private watchService:WatchService,
-              @Inject(FirebaseRef) dbRef
-              ) {
-    this.dbRef = dbRef.database().ref();
+              @Inject(FirebaseRef) dbRef,
+              private contextService: ContextService
+  ) {
+    this.dbRef = dbRef;//.database().ref();
 
     this.af.auth.subscribe(auth => {
-      console.log('auth is ',auth);
+      console.log('auth is ', auth);
       if (auth) {
         this.userId = auth.uid;
         // this.myWatchSetsList$ = this.watchSetsForUser(auth.uid);
       }
     });
   }
-  addNotice(notice:Notice){
-    // get the reference to the thing being noticed, the watch
 
-    const watchKey = notice.watchKey;
-    const wtn = Schema.watchToNotice(notice.watchKey);
-    let wtnkey =
-      this.af.database.list(wtn).push(notice).key;
+  addNotice(notice: Notice) {
+    console.log('addNotice for ', notice);
+/*
+    // copy over context properties if not already in the notice
+    const ctx: Context = this.contextService.getContext();
+    let finalNotice = Object.assign({watchKey: "unknown_watch_key"}, ctx, notice);
 
+    const noticeKey =
+      this.af.database.list(Schema.NOTICE).push(finalNotice).key;
 
+    const wtn = Schema.watchToNotice(finalNotice.watchKey);
+    this.af.database.list(wtn).push(noticeKey);
+
+    const watchKey = finalNotice.watchKey;
     // each watchtonotice has a 'count' of how many
     // notices on that Watch;
     // this needs transactional updating
-    this.watchService.incCount((notice.watchKey));
+
+    this.dbRef.child(Schema.watchCount(watchKey))
+      .transaction(function (curCount) {
+        if (curCount) {
+          return curCount + 1;
+        } else {
+          return 1;
+        }
+      });
+   */
+
   }
 }

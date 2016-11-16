@@ -11,11 +11,11 @@ export class Notice {
     /**
      * User who sent this notice
      */
-    public noticeUid: string,
+    public noticeUid?: string,
     /**
      * ISO 8609 dataetime of the observation
      */
-    public seenWhen: string,
+    public seenWhen?: string,
     /**
      * user decsription of location e.g., "at home"
      */

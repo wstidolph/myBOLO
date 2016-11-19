@@ -43,7 +43,7 @@ export class WatchService {
     this.dbRef = dbRef.database().ref();
 
     this.af.auth.subscribe(auth => {
-      console.log('auth is ',auth);
+      console.log('watchService sees auth is ',auth);
       if (auth) {
         this.userId = auth.uid;
         this.myWatchSetsList$ = this.watchSetsForUser(auth.uid);
@@ -83,24 +83,22 @@ export class WatchService {
   zeroCount(watchKey:string){
 
   }
-  addWatch(theWatch:Watch): Observable<Watch> {
-    const obs: FirebaseObjectObservable<Watch> =
-      this.dbRef.object(`${Schema.WATCHES}/${theWatch.key}`);
-
-    return obs;
+  addWatch(theWatch:Watch): any {
+    console.log("UNIMPLEMENTED WatchService#addWatch");
   }
 
   getWatch(watchKey:string) : FirebaseObjectObservable<Watch>{
     return this.af.database.object(Schema.watch(watchKey));
   }
 
-  findAllWatches(): FirebaseListObservable<Watch[]> {
-    return this.af.database.list(Schema.WATCHES);
+  getAllWatches(): FirebaseListObservable<Watch[]> {
+    return this.af.database.list(Schema.WATCH);
   }
 
   getAllWatchSets() {
-    return this.af.database.list(
-      Schema.WATCHSET); //{Schema.WATCHSET}
+    const refKey = Schema.WATCHSET;
+    // console.log('getAllWatchSets', refKey);
+    return this.af.database.list(refKey); //{Schema.WATCHSET}
   }
   watchSetsForUser(uid:string) {
     return this.af.database.list(
@@ -108,37 +106,44 @@ export class WatchService {
   }
 
   getWatchesForWatchSet(wskey) {
-    return this.af.database.list(`${Schema.WATCHESPERWATCHSET}/${wskey}`);
+
+    console.log('getWatchesForWatchSet', wskey);
+    const watchKeysList$ = this.getWatchKeyListPerWatchset(wskey);
+    const rtnVal = watchKeysList$
+      .map(wkl =>
+        wkl.map(wk => this.af.database.object(Schema.watch(wk.$key)))
+      )
+      .do(console.log)
+      .flatMap(fbobs => Observable.combineLatest(fbobs));
+    console.log('getWatchesForWatchSet done, rtnVal is ',rtnVal);
+    return rtnVal;
   }
 
   findWatchSetByKey(wskey:string) {
-    return this.af.database.list(`${Schema.WATCHSET}/${wskey}`);
+    const refKey = `${Schema.WATCHSET}/${wskey}`;
+    console.log('findWatchSetByKey looking for ', refKey);
+    return this.af.database.list(refKey);
   }
 
-  findWatchesByWatchset(wskey: string) {
+/*  findWatchesByWatchset(wskey: string) {
+    console.log('findWatchesByWatchset ', wskey);
     const watchKeyList$ = this.getWatchesForWatchSet(wskey);
+    console.log('  watchKeyList$ is ', watchKeyList$);
 
+    const listNode = '`${Schema.WATCHES}/${wskey}`';
+    console.log('  listNode is ', listNode);
     return watchKeyList$
-      .map(wk => this.af.database.object(`${Schema.WATCHES}/${wk}`))
+      .map(wk => this.af.database.object(wk))
       .flatMap(fbobs => Observable.combineLatest(fbobs));
-  }
+  }*/
 
-  getWatchKeyList(watchSetKey:string='*'): FirebaseListObservable<any> {
-    if(watchSetKey == '*'){
-      console.log('getWatchList got *');
-      return this.af.database.list(
-        Schema.WATCHKEYSLIST);
-    } else {
+  getWatchKeyListPerWatchset(watchSetKey:string='*'): FirebaseListObservable<any> {
+      const refKey = `${Schema.WATCHESPERWATCHSET}/${watchSetKey}`;
       console.log(
-        'getting watch list for ${Schema.WATCHESPERWATCHSET}/${watchSetKey}');
-      return this.af.database.list(
-        `${Schema.WATCHESPERWATCHSET}/${watchSetKey}`);
-    }
+        'getWatchKeyList for ',refKey);
+      return this.af.database.list(refKey);
   }
 
-  getWatchList(){
-
-  }
   /*makeUnifiedWatchList() {
    let flattened = this.flatten(this.myWatchSetsList$);
    // drop any dupes by making a Set and then back to Array

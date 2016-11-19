@@ -16,7 +16,7 @@ export class WatchPage {
   public watchList$: any;
 
   constructor(private navCtrl: NavController, private watchService: WatchService) {
-    this.watchList$ = watchService.getWatchList();
+    this.watchList$ = watchService.getAllWatches();
   }
 
   ionViewDidLoad() {

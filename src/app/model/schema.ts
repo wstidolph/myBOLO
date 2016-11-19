@@ -6,28 +6,28 @@ export class Schema {
   /**
    * @type {string}
    */
-  public static NOTICE = "notice";
+  public static NOTICE = "/notice";
   /**
    * @type {string}
    */
-  public static WATCHES = "watches";
+  public static WATCH = "/watch";
   /**
    * Maps a key to a list of keys, each of which is key for a Watch;
    * @type {string}
    */
 
   public static watch(watchKey:string):string{
-    return '${Schema.WATCHES}/${watchKey}}';
+    return `${Schema.WATCH}/${watchKey}`;
   }
-  public static WATCHSET = "watchSet";
+  public static WATCHSET = "/watchSet";
 
   public static watchCount(watchKey:string):string {
     return Schema.watch(watchKey)+ '/count';
   }
 
-  public static WATCHESPERWATCHSET = "watchesPerWatchSet";
+  public static WATCHESPERWATCHSET = "/watchesPerWatchSet";
 
-  public static WATCHTONOTICE = "watchToNotice";
+  public static WATCHTONOTICE = "/watchToNotice";
   public static watchToNotice(wid:string):string {
     return `${Schema.WATCHTONOTICE}/${wid}`;
   }
@@ -35,7 +35,7 @@ export class Schema {
    * Maps a watch key to a list of WatchSet keys.
    * @type {string}
    */
-  public static WATCHTOWATCHSETS = "watchToWatchSets";
+  //public static WATCHTOWATCHSETS = "watchToWatchSets";
 
   /**
    * Maps a Watch instance to an object of type WatchCount.
@@ -44,12 +44,12 @@ export class Schema {
   public static WATCHCOUNTS = "watchCounts";
 
   public static UID = "uid"
-  public static USERPROFILE = "userProfile";
+  public static USERPROFILE = "/userProfile";
 
   public static userWatchSets(uid:string):string {
-    return `${Schema.USERPROFILE}/${Schema.UID}/${Schema.WATCHSET}`;}
+    return `${Schema.USERPROFILE}/${Schema.UID}${Schema.WATCHSET}`;}
 
-  public static WATCHKEYSLIST = "watchKeysList";
+ // public static WATCHKEYSLIST = "watchKeysList";
 
 /*  public static WATCHSETWATCHKEYLIST(wskey:string):string {
     return `${Schema.WATCHSET}/${wskey}/${Schema.WATCHKEYSLIST}`;}*/

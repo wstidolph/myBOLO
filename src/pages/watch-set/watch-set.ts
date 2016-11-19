@@ -11,17 +11,17 @@ import {FirebaseListObservable} from "angularfire2";
 */
 @Component({
   selector: 'page-watch-set',
-  templateUrl: 'watch-set.html',
+  templateUrl: 'watch-set.html'
 })
 export class WatchSetPage {
 
   watchSetList$: any;
-  watchList$: any;
+  //watchList$: any;
 
   constructor(public navCtrl: NavController,
               private watchService: WatchService) {
     this.watchSetList$ = watchService.getAllWatchSets();
-    this.watchList$ = watchService.getAllWatchSets();
+    //this.watchList$ = watchService.getAllWatchSets();
   }
 
   moreWatchSetOptions(wskey){
@@ -30,7 +30,7 @@ export class WatchSetPage {
   }
 
   ionViewDidLoad() {
-    console.log('Hello WatchSetPage Page');
+    console.log('ionViewDidLoad WatchSetPage');
   }
 
 }

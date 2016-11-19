@@ -32,7 +32,7 @@ export class NoticeService {
     this.dbRef = dbRef;//.database().ref();
 
     this.af.auth.subscribe(auth => {
-      console.log('auth is ', auth);
+      console.log('NoticeService sees auth is ', auth);
       if (auth) {
         this.userId = auth.uid;
         // this.myWatchSetsList$ = this.watchSetsForUser(auth.uid);

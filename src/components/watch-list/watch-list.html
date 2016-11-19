@@ -5,8 +5,8 @@ an "isaw"
 -->
 
 <ion-list>
-  <ion-list-header>WatchSetKey: {{wskey}}</ion-list-header>
-  <ion-item *ngFor="let watchkey of watchList$ | async">
-    {{watchkey.$value}}
+  <ion-list-header>watch-list, WatchSetKey: {{wskey}}</ion-list-header>
+  <ion-item *ngFor="let watch of watchList$ | async">
+  list a watch:  {{watch | json}}
   </ion-item>
 </ion-list>

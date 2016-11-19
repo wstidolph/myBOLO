@@ -51,8 +51,6 @@ const myFirebaseAuthConfig = {
     WatchPage,
     WatchAddPage,
     WatchSetPage,
-
-
   ],
   providers: [
     AuthData,

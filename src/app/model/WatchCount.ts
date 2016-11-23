@@ -2,7 +2,7 @@
  * Created by wayne on 10/30/2016.
  */
 
-export class WatchCount {
+export interface WatchCount {
   /**
    * count of total isaw hits
    */

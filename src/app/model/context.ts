@@ -1,7 +1,4 @@
-export class Context {
-  public uid: any;
-
-  constructor(public seenWhen:number = Date.now()){
-  }
-
+export interface Context {
+  uid: any;
+  seenWhen: string;
 }

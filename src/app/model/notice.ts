@@ -1,56 +1,54 @@
 /**
  * Created by wstidolph on 10/2/16.
  */
-export class Notice {
+export interface Notice {
 
-  constructor(
     /**
      * The key to the Watch
      */
-    public watchKey: string,
+    watchKey: string;
     /**
      * User who sent this notice
      */
-    public noticeUid?: string,
+    noticeUid?: string;
     /**
      * ISO 8609 dataetime of the observation
      */
-    public seenWhen?: string,
+    seenWhen?: string;
     /**
      * user decsription of location e.g., "at home"
      */
-    public location?:string,
+    location?:string;
     /**
      * Open Location Code of the observation
      */
-    public olc?:string,
+    olc?:string;
     /**
      * User generated short string describing the observation
      */
-    public description?: string,
+    description?: string;
     /**
      * if seen on-line, this is the URL as "where"
      */
-    public url?: string,
+    url?: string;
     /**
      * array of tag strings
      */
-    public tags?: string[],
+    tags?: string[];
     /**
      * uploaded image(s) of the observation
      */
-    public imageUrls?:string[],
+    imageUrls?:string[];
     /**
      * uploaded video(s) of the observation
      */
-    public videoUrls?: string[],
+    videoUrls?: string[],
     /**
      * user-generated audio
      */
-    public audioClipUrl?: string,
+    audioClipUrl?: string;
     /**
      * user generated long description text
      */
-    public longDescription?: string
-  ){}
+    longDescription?: string;
 }

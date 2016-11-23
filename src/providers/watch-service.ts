@@ -14,15 +14,15 @@ import {
 } from "angularfire2";
 
 /*
-Data provider for Watches and WatchSets.
-Connects to Firebase. Basic data layout:
-/watch/:id/<watch fields>
-/watchSet/:id/<watchSet fields>
-/watchesPerWatchSet/:watchsetpushkey/:watchkey => count
+ Data provider for Watches and WatchSets.
+ Connects to Firebase. Basic data layout:
+ /watch/:id/<watch fields>
+ /watchSet/:id/<watchSet fields>
+ /watchesPerWatchSet/:watchsetpushkey/:watchkey => count
 
-temporary home for User-specific watch subscriptions:
+ temporary home for User-specific watch subscriptions:
 
-/userProfile/:uid/watchSet/:watchsetId => true
+ /userProfile/:uid/watchSet/:watchsetId => true
 
  */
 @Injectable()
@@ -38,32 +38,50 @@ export class WatchService {
   constructor(private af: AngularFire,
               @Inject(FirebaseRef) dbRef,
               private contextService: ContextService,
-              private noticeService:NoticeService)
-  {
+              private noticeService: NoticeService) {
     this.dbRef = dbRef.database().ref();
 
     this.af.auth.subscribe(auth => {
-      console.log('watchService sees auth is ',auth);
+      console.log('watchService sees auth is ', auth);
       if (auth) {
         this.userId = auth.uid;
         this.myWatchSetsList$ = this.watchSetsForUser(auth.uid);
 
       }
+
+      this.dbRef.child(Schema.WATCH).on('value', watchlist => {
+        let watches = [];
+        watchlist.forEach(watch => {
+          watches.push(this.makeWatchFromJSON(watch.val()))
+        })
+        console.log('watches: ', watches);
+      });
+
     });
+  }
+
+  makeWatchFromJSON(json): Watch {
+    return {
+      noticeableKey: json.noticeableKey,
+      count: json.count,
+      title: json.description
+    }
   }
 
   /**
    * add a here-and-now Notice of the specified watch (if it exists)
    * @param watchKey
    */
-  addQuickNotice(watchKey:string){
-    let notice:Notice = new Notice(watchKey=watchKey);
-    notice.location="at home";
-    notice.description="no_description";
+  addQuickNotice(watchKey: string) {
+    let notice: Notice = {
+      watchKey: watchKey,
+      location: "at home",
+      description: "no_description",
+    }
     this.noticeService.addNotice(notice);
   }
 
-  addWatchSet(theWatchSetKey:string):FirebaseListObservable<string[]> {
+  addWatchSet(theWatchSetKey: string): FirebaseListObservable<string[]> {
     let ws =
       this.af.database.list(`${Schema.WATCHSET}/${theWatchSetKey}`);
     ws.subscribe();
@@ -72,22 +90,22 @@ export class WatchService {
   }
 
   /*
-  watch count management
+   watch count management
    */
-  getCount(watchkey:string) {
+  getCount(watchkey: string) {
     return this.af.database.object(Schema.watchCount(watchkey));
   }
 
 
-
-  zeroCount(watchKey:string){
+  zeroCount(watchKey: string) {
 
   }
-  addWatch(theWatch:Watch): any {
+
+  addWatch(theWatch: Watch): any {
     console.log("UNIMPLEMENTED WatchService#addWatch");
   }
 
-  getWatch(watchKey:string) : FirebaseObjectObservable<Watch>{
+  getWatch(watchKey: string): FirebaseObjectObservable<Watch> {
     return this.af.database.object(Schema.watch(watchKey));
   }
 
@@ -100,48 +118,49 @@ export class WatchService {
     // console.log('getAllWatchSets', refKey);
     return this.af.database.list(refKey); //{Schema.WATCHSET}
   }
-  watchSetsForUser(uid:string) {
+
+  watchSetsForUser(uid: string) {
     return this.af.database.list(
       Schema.userWatchSets(uid)); // ${Schema.USERPROFILE}/{uid}/${Schema.WATCHSET}
   }
 
-  getWatchesForWatchSet(wskey) {
+  getLocalWatchStructure() {
 
-    console.log('getWatchesForWatchSet', wskey);
+
+  }
+
+  getWatchesForWatchSet(wskey) {
+    //console.log('getWatchesForWatchSet', wskey);
     const watchKeysList$ = this.getWatchKeyListPerWatchset(wskey);
+    // watchKeyList$ as a FirebaseListObservable, is an array of key/cal pairs
     const rtnVal = watchKeysList$
-      .map(wkl =>
+      .map(wkl => // process each key/val pair
+        // use the key to get the observable for the watch data (object)
         wkl.map(wk => this.af.database.object(Schema.watch(wk.$key)))
       )
-      .do(console.log)
+      // use flatmap just to turn the Observable into the (latest) data
       .flatMap(fbobs => Observable.combineLatest(fbobs));
-    console.log('getWatchesForWatchSet done, rtnVal is ',rtnVal);
+    //console.log('getWatchesForWatchSet done, rtnVal is ',rtnVal);
     return rtnVal;
   }
 
-  findWatchSetByKey(wskey:string) {
-    const refKey = `${Schema.WATCHSET}/${wskey}`;
-    console.log('findWatchSetByKey looking for ', refKey);
+
+  /*  findWatchesByWatchset(wskey: string) {
+   console.log('findWatchesByWatchset ', wskey);
+   const watchKeyList$ = this.getWatchesForWatchSet(wskey);
+   console.log('  watchKeyList$ is ', watchKeyList$);
+
+   const listNode = '`${Schema.WATCHES}/${wskey}`';
+   console.log('  listNode is ', listNode);
+   return watchKeyList$
+   .map(wk => this.af.database.object(wk))
+   .flatMap(fbobs => Observable.combineLatest(fbobs));
+   }*/
+
+  getWatchKeyListPerWatchset(watchSetKey: string = '*'): FirebaseListObservable<any> {
+    const refKey = `${Schema.WATCHESPERWATCHSET}/${watchSetKey}`;
+    //console.log('getWatchKeyList for ',refKey);
     return this.af.database.list(refKey);
-  }
-
-/*  findWatchesByWatchset(wskey: string) {
-    console.log('findWatchesByWatchset ', wskey);
-    const watchKeyList$ = this.getWatchesForWatchSet(wskey);
-    console.log('  watchKeyList$ is ', watchKeyList$);
-
-    const listNode = '`${Schema.WATCHES}/${wskey}`';
-    console.log('  listNode is ', listNode);
-    return watchKeyList$
-      .map(wk => this.af.database.object(wk))
-      .flatMap(fbobs => Observable.combineLatest(fbobs));
-  }*/
-
-  getWatchKeyListPerWatchset(watchSetKey:string='*'): FirebaseListObservable<any> {
-      const refKey = `${Schema.WATCHESPERWATCHSET}/${watchSetKey}`;
-      console.log(
-        'getWatchKeyList for ',refKey);
-      return this.af.database.list(refKey);
   }
 
   /*makeUnifiedWatchList() {

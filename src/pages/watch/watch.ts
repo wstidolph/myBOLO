@@ -32,7 +32,4 @@ export class WatchPage {
     console.log('clicked on watch key: ${watchkey}');
   }
 
-  quickNotice(watchKey: string){
-    this.watchService.addQuickNotice(watchKey);
-  }
 }

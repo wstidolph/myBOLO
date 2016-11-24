@@ -9,6 +9,7 @@ import {
 
 import {Context} from "../app/model/context";
 import {ContextService} from "./context-service";
+import {Watch} from "../app/model/watch";
 
 /*
  Data provider for Notices and Noticeables.
@@ -29,7 +30,7 @@ export class NoticeService {
               @Inject(FirebaseRef) dbRef,
               private contextService: ContextService
   ) {
-    this.dbRef = dbRef;//.database().ref();
+    this.dbRef = dbRef.database().ref();
 
     this.af.auth.subscribe(auth => {
       console.log('NoticeService sees auth is ', auth);
@@ -41,16 +42,21 @@ export class NoticeService {
   }
 
   addNotice(notice: Notice) {
-    console.log('addNotice for ', notice);
-/*
+    console.log('NoticeService addNotice for ', notice);
+
     // copy over context properties if not already in the notice
     const ctx: Context = this.contextService.getContext();
+    console.log('NS ctx', ctx);
     let finalNotice = Object.assign({watchKey: "unknown_watch_key"}, ctx, notice);
 
+    console.log('NS finalNotice', finalNotice);
     const noticeKey =
       this.af.database.list(Schema.NOTICE).push(finalNotice).key;
 
+    console.log('NS noticeKey', noticeKey);
+
     const wtn = Schema.watchToNotice(finalNotice.watchKey);
+    console.log('NS wtn', wtn);
     this.af.database.list(wtn).push(noticeKey);
 
     const watchKey = finalNotice.watchKey;
@@ -58,7 +64,12 @@ export class NoticeService {
     // notices on that Watch;
     // this needs transactional updating
 
-    this.dbRef.child(Schema.watchCount(watchKey))
+    const watchCountPath = Schema.watchCount(watchKey);
+    console.log('NS watchCountPath', watchCountPath);
+
+    let r = this.dbRef.child(watchCountPath);
+
+    this.dbRef.child(watchCountPath)
       .transaction(function (curCount) {
         if (curCount) {
           return curCount + 1;
@@ -66,7 +77,7 @@ export class NoticeService {
           return 1;
         }
       });
-   */
+
 
   }
 }

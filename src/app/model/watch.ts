@@ -10,7 +10,7 @@ export interface Watch {
   /**
    * numer of times this Watch has been noticed
    */
-  count: number;
+  count?: number;
   /**
    * pushkey of this Watch (doesn't exist until after push from back end)
    */

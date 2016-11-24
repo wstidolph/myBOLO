@@ -1,6 +1,10 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {NavController} from "ionic-angular";
+import {NavController} from 'ionic-angular';
 import {WatchService} from "../../providers/watch-service";
+import {WatchNoticeService} from '../../providers/watch-notice';
+import {Observable} from "rxjs";
+import {Watch} from "../../app/model/watch";
+import {Notice} from "../../app/model/notice";
 
 /*
   Manage and present a list of Watches
@@ -20,23 +24,29 @@ export class WatchListComponent implements OnInit {
     console.log('WatchListComponent ngOnInit done');
   }
 
-  /*@Input()
-  set wskey(newWskey:string) {
-    this.watchKeyList$ = this.watchService.getWatchKeyList(newWskey);
-  };*/
+  /**
+   * WatchSet key (each WatchListComponent watches one WatchSet)
+   */
   wskey:string;
 
-  public watchKeyList$: any;
-  public watchList$: any;
+  public watchKeyList$: Observable<string>;
+  public watchList$: Observable<Watch>;
 
   constructor(private navCtrl: NavController,
-              private watchService: WatchService) {}
+              private watchService: WatchService,
+              private watchNoticeService: WatchNoticeService) {}
 
   ionViewDidLoad() {
     console.log('WatchListComponent view did load');
   }
 
   watchWasClicked($event) {
+    let watch :Watch = {
+      noticeableKey: $event.noticeableKey,
+      key:$event.$key
 
+    }
+    console.log('watchWasClicked', $event);
+    this.watchNoticeService.addQuickNotice(watch);
   }
 }

@@ -12,6 +12,7 @@ import {
   FirebaseListObservable,
   FirebaseObjectObservable
 } from "angularfire2";
+import {WatchNoticeService} from "./watch-notice";
 
 /*
  Data provider for Watches and WatchSets.
@@ -68,18 +69,6 @@ export class WatchService {
     }
   }
 
-  /**
-   * add a here-and-now Notice of the specified watch (if it exists)
-   * @param watchKey
-   */
-  addQuickNotice(watchKey: string) {
-    let notice: Notice = {
-      watchKey: watchKey,
-      location: "at home",
-      description: "no_description",
-    }
-    this.noticeService.addNotice(notice);
-  }
 
   addWatchSet(theWatchSetKey: string): FirebaseListObservable<string[]> {
     let ws =

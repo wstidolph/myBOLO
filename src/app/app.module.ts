@@ -14,6 +14,7 @@ import { AuthData } from '../providers/auth-data';
 import { ContextService } from '../providers/context-service';
 import { NoticeService } from '../providers/notice-service';
 import { WatchService } from '../providers/watch-service';
+import { WatchNoticeService } from '../providers/watch-notice';
 
 import {  WatchListComponent } from '../components/watch-list/watch-list';
 // Import the AF2 Module
@@ -56,7 +57,8 @@ const myFirebaseAuthConfig = {
     AuthData,
     ContextService,
     NoticeService,
-    WatchService
+    WatchService,
+    WatchNoticeService
   ]
 })
 export class AppModule {}

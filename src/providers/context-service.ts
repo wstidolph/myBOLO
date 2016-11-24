@@ -9,8 +9,10 @@ export class ContextService {
   }
 
   public getContext(): Context {
-    let ctx:Context = new Context(); // default to 'now'
-    ctx.uid = this.authData.getUser().uid;
+    let ctx:Context = {
+      uid: this.authData.getUser() ?this.authData.getUser().uid : 'UNKNOWN USER',
+      seenWhen: Date.now().toString()
+    }; // default to 'now'
     return ctx;
   }
 }

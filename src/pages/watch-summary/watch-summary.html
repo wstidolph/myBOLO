@@ -4,7 +4,7 @@ Make a list of BOLO groups (each is a WatchSet)
 <ion-header>
 
   <ion-navbar>
-    <ion-title>BOLO Groups (watch-set)</ion-title>
+    <ion-title>BOLO Summary</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -12,12 +12,16 @@ Make a list of BOLO groups (each is a WatchSet)
 
 <ion-content padding>
 
-  <ion-list *ngFor="let watchset of watchSetList$ | async">
-    <ion-list-header (click)="moreWatchSetOptions(watchset.$key)"><h2>{{watchset.description}}</h2></ion-list-header>
+  <ion-list *ngFor="let i= index; let watchset of watchSetList$ | async">
+    <ion-list-header (click)="subscribeToWatchset(watchset.$key)">
+
+      <h2>{{i}}: {{watchset.description}}</h2>
+    </ion-list-header>
     <ion-item>
       {{watchset.longDescription}} : {{watchset.$key}}
       <watch-list [wskey]="watchset.$key">
       </watch-list>
     </ion-item>
   </ion-list>
+
 </ion-content>

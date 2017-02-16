@@ -16,20 +16,12 @@ import {WatchNoticeService} from "./watch-notice";
 
 /*
  Data provider for Watches and WatchSets.
- Connects to Firebase. Basic data layout:
- /watch/:id/<watch fields>
- /watchSet/:id/<watchSet fields>
- /watchesPerWatchSet/:watchsetpushkey/:watchkey => count
-
- temporary home for User-specific watch subscriptions:
-
- /userProfile/:uid/watchSet/:watchsetId => true
-
+ Connects to Firebase.
  */
 @Injectable()
 export class WatchService {
 
-  dbRef: any;
+  dbRef: firebase.database.Reference;
   myWatchSetsList$: FirebaseListObservable<any>;
   myWatchList$: FirebaseListObservable<any>;
   myUnifiedWatchList: Array<string> = [];
@@ -46,18 +38,7 @@ export class WatchService {
       console.log('watchService sees auth is ', auth);
       if (auth) {
         this.userId = auth.uid;
-        this.myWatchSetsList$ = this.watchSetsForUser(auth.uid);
-
       }
-
-      this.dbRef.child(Schema.WATCH).on('value', watchlist => {
-        let watches = [];
-        watchlist.forEach(watch => {
-          watches.push(this.makeWatchFromJSON(watch.val()))
-        })
-        console.log('watches: ', watches);
-      });
-
     });
   }
 
@@ -69,12 +50,9 @@ export class WatchService {
     }
   }
 
-
-  addWatchSet(theWatchSetKey: string): FirebaseListObservable<string[]> {
+  addWatchSet$(theWatchSetKey: string): FirebaseListObservable<string[]> {
     let ws =
       this.af.database.list(`${Schema.WATCHSET}/${theWatchSetKey}`);
-    ws.subscribe();
-
     return ws;
   }
 
@@ -102,15 +80,10 @@ export class WatchService {
     return this.af.database.list(Schema.WATCH);
   }
 
-  getAllWatchSets() {
+  getAllWatchSets():FirebaseListObservable<any[]> {
     const refKey = Schema.WATCHSET;
     // console.log('getAllWatchSets', refKey);
     return this.af.database.list(refKey); //{Schema.WATCHSET}
-  }
-
-  watchSetsForUser(uid: string) {
-    return this.af.database.list(
-      Schema.userWatchSets(uid)); // ${Schema.USERPROFILE}/{uid}/${Schema.WATCHSET}
   }
 
   getLocalWatchStructure() {

@@ -4,9 +4,12 @@ import {
   AuthProviders,
   AuthMethods, FirebaseAuth, FirebaseAuthState
 } from 'angularfire2';
+import {Observable} from "rxjs";
+import {UserProfile} from "../app/model/user-profile";
 
 @Injectable()
 export class AuthData {
+
   fireAuth: firebase.User;
   constructor(public af: AngularFire) {
     // af.auth is an AngularFireAuth extends ReplaySubject<FirebaseAuthState>

@@ -42,21 +42,21 @@ export class NoticeService {
   }
 
   addNotice(notice: Notice) {
-    console.log('NoticeService addNotice for ', notice);
+    //console.log('NoticeService addNotice for ', notice);
 
     // copy over context properties if not already in the notice
     const ctx: Context = this.contextService.getContext();
-    console.log('NS ctx', ctx);
+    //console.log('NS ctx', ctx);
     let finalNotice = Object.assign({watchKey: "unknown_watch_key"}, ctx, notice);
 
-    console.log('NS finalNotice', finalNotice);
+    //console.log('NS finalNotice', finalNotice);
     const noticeKey =
       this.af.database.list(Schema.NOTICE).push(finalNotice).key;
 
-    console.log('NS noticeKey', noticeKey);
+    //console.log('NS noticeKey', noticeKey);
 
     const wtn = Schema.watchToNotice(finalNotice.watchKey);
-    console.log('NS wtn', wtn);
+    //console.log('NS wtn', wtn);
     this.af.database.list(wtn).push(noticeKey);
 
     const watchKey = finalNotice.watchKey;
@@ -65,7 +65,7 @@ export class NoticeService {
     // this needs transactional updating
 
     const watchCountPath = Schema.watchCount(watchKey);
-    console.log('NS watchCountPath', watchCountPath);
+    //console.log('NS watchCountPath', watchCountPath);
 
     let r = this.dbRef.child(watchCountPath);
 

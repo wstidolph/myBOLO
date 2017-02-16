@@ -4,18 +4,20 @@
 import {database, initializeApp} from "firebase";
 import {firebaseConfig} from "../config/fb_conf.dev";
 import {dbData} from "./db-data";
+import {Schema} from '../src/app/model/schema';
 import {isNullOrUndefined} from "util";
 
 console.log('Initizalizing Firebase database ... ');
 
 initializeApp(firebaseConfig);
 
-const watchesRef = database().ref('watch');
-const watchSetsRef = database().ref('watchSet');
-const watchesPerWatchSetRef = database().ref('watchesPerWatchSet');
-const noticeablesRef = database().ref('noticeable');
-const noticesRef = database().ref('notice');
-const userProfileRef = database().ref('userProfile');
+const watchesRef = database().ref(Schema.WATCH);
+const watchSetsRef = database().ref(Schema.WATCHSET);
+const watchesPerWatchSetRef = database().ref(Schema.WATCHESPERWATCHSET);
+const watchSetToUserRef = database().ref(Schema.WATCHSETTOUSER);
+const noticeablesRef = database().ref(Schema.NOTICEABLE);
+const noticesRef = database().ref(Schema.NOTICE);
+const userProfileRef = database().ref(Schema.USERPROFILE);
 
 let noticeableKeys = [];
 dbData.noticables.forEach(noticeable => {
@@ -104,18 +106,21 @@ dbData.watchsets.forEach(watchset => {
 let upKeys = [];
 dbData.userProfile.forEach(up => {
   const upkey = userProfileRef.push({
+    authKey: up.authKey,
     firstName:  up.firstName,
     lastName: up.lastName,
     email: up.email,
+    watchSetCount: up.watchSetCount
   }).key;
-
+  // update the user's authKey to the new upkey pushkey
   upKeys.push(upkey);
 
-  const watchSetsForUserRef = userProfileRef.child(upkey).child('watchSet');
+  const watchSetsForUserRef = userProfileRef.child(upkey).child(Schema.WATCHSET);
   const watchSetsForUser = up.watchSets.map(wsidx => watchsetRefKeys[wsidx]);
   watchSetsForUser.forEach(wskey => {
     const wskeyAssoc = watchSetsForUserRef.child(wskey);
     wskeyAssoc.set(true);
+    const wsuKeyAssoc = watchSetToUserRef.child(upkey).set(true);
   })
 });
 

@@ -8,11 +8,12 @@ import { ResetPasswordPage } from '../pages/reset-password/reset-password';
 import { SignupPage } from '../pages/signup/signup';
 import { WatchPage } from '../pages/watch/watch';
 import { WatchAddPage } from '../pages/watch-add/watch-add';
-import { WatchSetPage } from '../pages/watch-set/watch-set';
+import { WatchSummaryPage } from '../pages/watch-summary/watch-summary';
 
 import { AuthData } from '../providers/auth-data';
 import { ContextService } from '../providers/context-service';
 import { NoticeService } from '../providers/notice-service';
+import { UserWatchService } from '../providers/user-watch';
 import { WatchService } from '../providers/watch-service';
 import { WatchNoticeService } from '../providers/watch-notice';
 
@@ -20,6 +21,7 @@ import {  WatchListComponent } from '../components/watch-list/watch-list';
 // Import the AF2 Module
 import { AngularFireModule, AuthProviders, AuthMethods } from 'angularfire2';
 import {firebaseConfig} from '../../config/fb_conf.dev';
+import {UserDataService} from "../providers/user-data";
 
 const myFirebaseAuthConfig = {
   provider: AuthProviders.Password,
@@ -35,7 +37,7 @@ const myFirebaseAuthConfig = {
     SignupPage,
     WatchPage,
     WatchAddPage,
-    WatchSetPage,
+    WatchSummaryPage,
     WatchListComponent
   ],
   imports: [
@@ -51,12 +53,14 @@ const myFirebaseAuthConfig = {
     SignupPage,
     WatchPage,
     WatchAddPage,
-    WatchSetPage,
+    WatchSummaryPage,
   ],
   providers: [
     AuthData,
     ContextService,
     NoticeService,
+    UserDataService,
+    UserWatchService,
     WatchService,
     WatchNoticeService
   ]

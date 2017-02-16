@@ -1,32 +1,32 @@
 import {Component, Input} from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { WatchService } from '../../providers/watch-service';
+import { UserWatchService } from '../../providers/user-watch';
 import { WatchListComponent } from '../../components/watch-list/watch-list';
 import {FirebaseListObservable} from "angularfire2";
-/*
-  Generated class for the WatchSet page.
+import {Observable} from "rxjs";
 
-  See http://ionicframework.com/docs/v2/components/#navigation for more info on
-  Ionic pages and navigation.
-*/
+
 @Component({
   selector: 'page-watch-set',
-  templateUrl: 'watch-set.html'
+  templateUrl: 'watch-summary.html'
 })
-export class WatchSetPage {
+export class WatchSummaryPage {
 
-  watchSetList$: any;
+
+  watchSetList$: FirebaseListObservable<any>;
   //watchList$: any;
 
+  wsuCount : number;
   constructor(public navCtrl: NavController,
+              private userWatchService: UserWatchService,
               private watchService: WatchService) {
-    this.watchSetList$ = watchService.getAllWatchSets();
-    //this.watchList$ = watchService.getAllWatchSets();
+    this.watchSetList$ = userWatchService.myWatchSetsList$;
   }
 
-  moreWatchSetOptions(wskey){
-    console.log('asked for moreWatchSetOptions on key ', wskey);
-    this.watchService.getWatchesForWatchSet(wskey);
+  subscribeToWatchset(wskey){
+    console.log('subscribing to key ', wskey);
+    this.userWatchService.subscribeToWatchset(wskey);
   }
 
   ionViewDidLoad() {

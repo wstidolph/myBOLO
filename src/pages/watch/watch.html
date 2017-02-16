@@ -1,8 +1,6 @@
 <!--
-  Generated template for the Watch page.
-
-  See http://ionicframework.com/docs/v2/components/#navigation for more info on
-  Ionic pages and navigation.
+List the Watch Listsm show which ones have activity,
+and allow selecting one to show as expanded
 -->
 <ion-header>
 
@@ -19,15 +17,15 @@
 <ion-content padding>
 
   <ion-list>
-    <ion-list-header>Active BOLO</ion-list-header>
+    <ion-list-header>BOLO Groups</ion-list-header>
 
     <ion-item *ngFor="let watch of watchList$ | async"
               on-hold="quickNotice(watch.key)"
               (click)="moreWatchOptions(watch.key)"
               [class.hide]="watch.active == false">
       <ion-icon name="timer" color="danger" item-left></ion-icon>
-      <h2>${{watch.title}}</h2>
-      <h3>Total: <strong>${{watch.count}}</strong></h3>
+      <h2>{{watch.title}}</h2>
+      <h3>Total: <strong>{{watch.count}} hits</strong></h3>
     </ion-item>
 
   </ion-list>

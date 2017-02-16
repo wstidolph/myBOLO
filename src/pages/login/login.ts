@@ -5,26 +5,35 @@ import { AuthData } from '../../providers/auth-data';
 import { HomePage } from '../home/home';
 import { ResetPasswordPage } from '../reset-password/reset-password';
 import { EmailValidator } from '../../validators/email';
+import {UserDataService} from '../../providers/user-data';
+import {Observable} from "rxjs";
+import {UserProfile} from "../../app/model/user-profile";
 
 @Component({
   selector: 'page-login',
   templateUrl: 'login.html',
 })
 export class LoginPage {
+  userProfileList$: Observable<UserProfile>;
   public loginForm: any;
   emailChanged: boolean = false;
   passwordChanged: boolean = false;
   submitAttempt: boolean = false;
   public loading: any;
 
-  constructor(public nav: NavController, public authData: AuthData,
-    public formBuilder: FormBuilder, public alertCtrl: AlertController,
-    public loadingCtrl: LoadingController) {
+  constructor(public nav: NavController,
+              public authData: AuthData,
+              public userDataService:UserDataService,
+              public formBuilder: FormBuilder,
+              public alertCtrl: AlertController,
+              public loadingCtrl: LoadingController) {
 
     this.loginForm = formBuilder.group({
       email: ['', Validators.compose([Validators.required, EmailValidator.isValid])],
       password: ['', Validators.compose([Validators.minLength(6), Validators.required])]
     });
+
+   // userDataService.userList$.subscribe(this.userProfileList$);
   }
 
   elementChanged(input){

@@ -104,10 +104,12 @@ export const dbData = {
     }
   ],
   "userProfile" : [{
+    "authKey":"UNK",
     "firstName": "Wayne",
     "lastName": "Ali",
     "email": "wayne@stidolph.com",
     "watchSets": [0],
+    "watchSetCount": 1,
     "watches":[
       {
         "watchKey":"watchSetKey"
